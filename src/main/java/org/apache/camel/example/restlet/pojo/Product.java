@@ -1,9 +1,11 @@
 package org.apache.camel.example.restlet.pojo;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 
-public class Product {
+public class Product implements Serializable {
 	
 	@SerializedName("name")
 	private String name;

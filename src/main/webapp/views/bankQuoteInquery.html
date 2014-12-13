@@ -1,0 +1,45 @@
+<style>
+    .ng-invalid { background-color: lightpink; }
+    .ng-valid { background-color: lightgreen; }
+    span.error { color: red; font-weight: bold; }
+</style>
+
+  <form name="bankQuoteForm" >  
+   <div class="col-xs-4">    
+       <h3>Serach Details</h3>       
+        <div class="input-group">
+            <label>FIN/Passport</label>
+            <input name="name" class="form-control"
+                   ng-model="data.shipping.name" required />
+            </div>
+       <div class="input-group">
+            <label>Loan Amount</label>
+            <input name="amount" class="form-control"
+                   ng-model="data.shipping.amount" required />
+       </div>   
+            
+       <div class="input-group">
+            <label>Tenure</label>
+            <input name="tenure" class="form-control"
+                   ng-model="data.shipping.tenure" required />
+       </div>
+
+       <div>
+           <label> Use (F3132910,C2233910,M1122334,K665544) for FIN</label>
+       </div>
+
+       
+      <div class="input-group">
+	        <div class="text-left">
+	            <button ng-disabled="bankQuoteForm.$invalid"
+	                    ng-click="sendOrder(data.shipping)"
+	                    class="btn btn-primary">
+	               Get Quote
+	            </button>
+	        </div>
+       </div>
+       
+       
+	        
+	    </div>
+	</form>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html ng-app="loanBroker" >
+<head>
+    <title>Loan Broker Demo</title>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <link href="bootstrap-theme.css" rel="stylesheet" />
+    <link  href="css/ng-grid.css" rel="stylesheet"/>
+    <link  href="jquery-ui.css" rel="stylesheet"/>
+    <script src="angular.js"></script>
+      <script src="jquery.js"></script>
+      <script src="ngmodules/ng-grid.js"></script>
+     <!--  <script type="text/javascript" src="main.js"></script> --> 
+     
+     <script type="text/javascript">
+     angular.module("loanBroker", ['ngGrid']);
+     </script>
+    <script src="controllers/loanBroker.js"></script>
+       
+        
+ 
+    
+    <style>
+    .ng-invalid { background-color: lightpink; }
+    .ng-valid { background-color: lightgreen; }
+    span.error { color: red; font-weight: bold; }
+    
+    .gridStyle {
+    width: 800px; 
+    height: 400px
+}
+</style>
+    
+</head>
+<body>
+    <div class="container-fluid" ng-controller="bankQouteCntlr">
+        <div class="navbar navbar-inverse">
+            <h3 class="navbar-brand">LOAN BROKER</h3>
+        </div>
+       
+       <!-- <div class="col-xs-3">
+            <a ng-click="selectCategory()"
+               class="btn btn-block btn-default btn-lg">Home</a>
+           
+        </div>   -->
+  <div class="col-xs-4">    
+   <form name="bankQuoteForm" >
+    <div class="well">
+       <h3>Serach Details</h3>
+       
+        <div class="input-group">
+            <label>FIN/Passport</label>
+            <input name="name" class="form-control"
+                   ng-model="data.shipping.name" required />
+           <!-- <span class="error" ng-show="bankQuoteForm.name.$error.required">
+                Please enter a FIN/Passport
+            </span> --> 
+            </div>
+           <div class="input-group">
+            <label>Loan Amount</label>
+            <input name="amount" class="form-control"
+                   ng-model="data.shipping.amount" required />
+           <!-- <label class="error" ng-show="bankQuoteForm.street.$error.required">
+                Please enter  Loan Amount
+            </label>-->   
+             </div>   
+            
+            <div class="input-group">
+            <label>Tenure</label>
+            <input name="tenure" class="form-control"
+                   ng-model="data.shipping.tenure" required />
+            <!--<span class="error" ng-show="bankQuoteForm.city.$error.required">
+                Please enter Tenure
+            </span>-->
+        </div>
+
+       <div><label> Use (F3132910,C2233910,M1122334,K665544) for FIN</label></div>
+
+       
+           <div class="input-group">
+		        <div class="text-left">
+		            <button ng-disabled="bankQuoteForm.$invalid"
+		                    ng-click="sendOrder(data.shipping)"
+		                    class="btn btn-primary">
+		               Get Quote
+		            </button>
+		        </div>
+	        </div>
+	        
+	        
+	    </div>
+	</form>
+</div> 
+
+<div class="gridStyle col-xs-8" ng-grid="gridOptions"/> 
+
+</div>
+ 
+</body>
+</html>

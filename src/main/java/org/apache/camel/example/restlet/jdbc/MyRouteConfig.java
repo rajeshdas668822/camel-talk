@@ -21,7 +21,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class MyRouteConfig extends RouteBuilder {
 
-    @Override
+   @Override
     public void configure() {
         from("restlet:/persons?restletMethod=POST")
                 .setBody(simple("insert into person(firstName, lastName) values('${header.firstName}','${header.lastName}')"))
@@ -46,4 +46,44 @@ public class MyRouteConfig extends RouteBuilder {
                 .setBody(simple("select * from person"))
                 .to("jdbc:dataSource");
     }
+	
+	/*@Override
+	public void configure() throws Exception {
+	        String restletURL = "restlet:http://localhost:8080/convert/{data}?restletMethods=get";
+
+	        String cxfEndpoint = "cxf://http://www.webservicex.net/CurrencyConvertor.asmx?"
+	                + "portName={http://www.webserviceX.NET/}CurrencyConvertorSoap&"
+	                + "dataFormat=MESSAGE&loggingFeatureEnabled=true&defaultOperationName=ConversionRate&defaultOperationNamespace={http://www.webserviceX.NET/}&synchronous=true";
+
+
+	        SoapJaxbDataFormat soap = new SoapJaxbDataFormat("net.webservicex", new ServiceInterfaceStrategy(CurrencyConvertorSoap.class, true));
+	        soap.setVersion("1.2");
+
+	        GsonDataFormat gson = new GsonDataFormat(BankQuote.class);
+	       // gson.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);
+
+	        from(restletURL).routeId("Restlet")
+	        .process(new Processor()  {
+	            @Override
+	            public void process(Exchange exchange) throws Exception {
+	                String data = (String) URLDecoder.decode((String) exchange.getIn().getHeader("data"), "UTF-8");
+	                exchange.getIn().setHeader("org.restlet.http.headers", "");
+	                exchange.getIn().setHeader("data", "");
+	                exchange.getIn().setBody(data);
+	                Response<T>.getCurrent().setStatus(Status.SUCCESS_OK);
+	            }
+
+	        })
+	        .unmarshal(gson)
+	        .marshal(soap)
+	        .to(cxfEndpoint)
+	        .unmarshal(soap)
+	        .marshal(gson)
+	        .process(new Processor() {
+	            public void process(Exchange exchange) throws Exception {
+	                String output = exchange.getIn().getBody(String.class);
+	                exchange.getOut().setBody(output);
+	            }
+	        });
+	    }*/
 }

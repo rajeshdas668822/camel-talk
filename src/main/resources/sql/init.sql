@@ -31,6 +31,17 @@ CREATE TABLE Product(
 );
 
 
+CREATE TABLE CustomerOrder(
+  id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+  name VARCHAR(100) DEFAULT NULL,
+  street VARCHAR(100) DEFAULT NULL,
+  city VARCHAR(100) DEFAULT NULL,
+  state VARCHAR(100) DEFAULT NULL,
+  zip VARCHAR(100) DEFAULT NULL,
+  country VARCHAR(20) DEFAULT NULL,
+  giftwarp BOOLEAN 
+  );
+
 insert into person (firstName,lastName) values ('Rajesh','Das');
 insert into person (firstName,lastName) values ('Pabitra','Mallick');
 insert into person (firstName,lastName) values ('Parin','Das');
