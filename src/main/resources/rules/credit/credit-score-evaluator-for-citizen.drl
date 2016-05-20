@@ -1,0 +1,54 @@
+package rules.credit;
+
+
+import org.apache.camel.loanbroker.credit.CreditScore;
+import org.apache.camel.loanbroker.credit.Customer;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerPR;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerCitizen;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerOnEP;
+
+
+declare CreditScore
+    @role(event)
+ end
+ 
+ declare Customer
+    @role(event)
+ end
+ 
+
+
+ rule "Cutomer Citizen or PR and income < 5000"
+ 
+ when
+        $cutomer : Customer( $ssn:ssn , amount < 5000, (isCustomerPR($ssn)|| isCustomerCitizen($ssn)))       
+ then
+    
+        System.out.println("Cutomer Citizen or PR and income < 5000");
+        insert(new CreditScore(4,$ssn));
+ end
+ 
+ 
+
+  rule "Cutomer Citizen or PR and income between 5000 and 7000"    
+  
+    when
+           $cutomer : Customer($ssn:ssn , amount > 5000 && amount < 6000, ( isCustomerPR($ssn)|| isCustomerCitizen($ssn)))    
+    then  
+           
+           insert(new CreditScore(6,$ssn));
+
+  end
+
+
+ rule "Cutomer Citizen or PR and income > 6000"    
+    when
+        $cutomer : Customer($ssn:ssn ,(isCustomerPR($ssn) || isCustomerCitizen($ssn)) && amount > 6000)    
+    then
+        
+       System.out.println("Cutomer Citizen or PR and income > 6000");
+       insert(new CreditScore(8,$ssn));
+
+ end
+
+ 
