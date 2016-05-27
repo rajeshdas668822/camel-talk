@@ -132,7 +132,7 @@
     <camel:route id="loanBrokerRoute">     
       <camel:from uri="cxf:bean:loanBroker"/>
       <camel:process ref="creditScoreProcessor"/><camel:log message="The Header value is :::${in.header.creditScore}"/>
-        <camel:choice>      
+       <!--  <camel:choice>      
          <camel:when >
          <camel:simple>${in.header.creditScore} &lt; 6 </camel:simple>
           <camel:multicast parallelProcessing="true" strategyRef="bankResponse">
@@ -148,8 +148,10 @@
          </camel:otherwise>   
          
       </camel:choice>
-      
-
+      -->
+    <camel:recipientList parallelProcessing="true" strategyRef="bankResponse"> 
+           <camel:header>recipientList</camel:header>   
+	 </camel:recipientList>
       
       <camel:process ref="replyProcessor"/>
     </camel:route>

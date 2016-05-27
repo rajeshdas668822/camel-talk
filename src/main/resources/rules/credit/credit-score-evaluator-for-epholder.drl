@@ -1,0 +1,40 @@
+//created on: May 19, 2016
+package rules.credit;
+
+//list any import classes here.
+
+import org.apache.camel.loanbroker.credit.CreditScore;
+import org.apache.camel.loanbroker.credit.Customer;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerOnEP;
+
+
+//declare any global variables here
+
+ rule "Cutomer ON EP and income < 5000"
+
+    when
+        $cutomer : Customer($ssn:ssn , isCustomerOnEP($ssn) && amount <= 5000)       
+    then
+        insert( new CreditScore(5,$ssn) );
+end
+
+ rule "Cutomer ON EP and income between 5000 and 7000"    
+    when
+        $cutomer : Customer($ssn:ssn , isCustomerOnEP($ssn), amount > 5000 && amount <= 7000)    
+    then
+         insert(new CreditScore(6,$ssn));
+
+end
+
+
+rule "Cutomer ON EP and income > 7000"    
+    when
+        $cutomer : Customer($ssn:ssn ,isCustomerOnEP($ssn)  && amount > 7000)    
+    then
+         insert(new CreditScore(8,$ssn));
+
+end
+
+
+
+

@@ -17,11 +17,11 @@ public class ResletToSoapMapper {
 
 
 	public List<BankQuote> process(@XPath("/newRoot/name/text()")String fin,@XPath("/newRoot/amount/text()")String amount,
-                        @XPath("/newRoot/tenure/text()")String tenure ) throws Exception {
+                        @XPath("/newRoot/tenure/text()")String tenure, @XPath("/newRoot/incomeAmount/text()")String incomeAmount ) throws Exception {
 		
 		 LoanBrokerWS loanBroker = Client.getProxy(url);   
 	        List<BankQuote> bankQuSet=new ArrayList<BankQuote>();
-	        bankQuSet.addAll(loanBroker.getLoanQuoteForAll(fin, Double.valueOf(amount), Integer.valueOf(tenure)));
+	        bankQuSet.addAll(loanBroker.getLoanQuoteForAll(fin, Double.valueOf(amount),Integer.valueOf(incomeAmount), Integer.valueOf(tenure)));
 	        Collections.sort(bankQuSet, new BankQuoteComparator());
 	   
 	        System.out.println("Result: {}"+bankQuSet);

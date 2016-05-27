@@ -76,7 +76,7 @@ public class LoanBrokerWSTest extends CamelSpringTestSupport {
     public void testInvocation() throws Exception {
         LoanBrokerWS loanBroker = Client.getProxy(url);   
         List<BankQuote> bankQuSet=new ArrayList<BankQuote>();
-        bankQuSet.addAll(loanBroker.getLoanQuoteForAll("F3132910", 30000.0, 3));
+        bankQuSet.addAll(loanBroker.getLoanQuoteForAll("F3132910", 30000.0,5000, 3));
         Collections.sort(bankQuSet, new BankQuoteComparator());
    
         log.info("Result: {}", bankQuSet);

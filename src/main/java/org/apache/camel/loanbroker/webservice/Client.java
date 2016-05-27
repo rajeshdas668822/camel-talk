@@ -47,7 +47,7 @@ public final class Client {
         LoanBrokerWS loanBroker = getProxy(url);
 
         StopWatch watch = new StopWatch();
-        String result = loanBroker.getLoanQuote("SSN", 5000.00, 24);
+        String result = loanBroker.getLoanQuote("SSN", 30000.00,5000, 24);
 
         System.out.println("Took " + watch.stop() + " milliseconds to call the loan broker service");
         System.out.println(result);

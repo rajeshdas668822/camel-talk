@@ -1,39 +1,24 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.apache.camel.loanbroker.webservice;
 
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.loanbroker.credit.CreditAgency.CreditHistoryDetails;
 import org.apache.camel.loanbroker.credit.CreditAgencyWS;
-
+import org.apache.camel.loanbroker.credit.CreditHistoryDetails;
+import org.apache.camel.loanbroker.credit.Customer;
+import org.apache.camel.loanbroker.service.RFQProviderImpl;
+import org.apache.camel.loanbroker.util.LoanBrokerKeiHelper;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.kie.api.runtime.KieSession;
 
 /**
  * Credit score processor.
  */
-//START SNIPPET: credit
+
 public class CreditScoreProcessor implements Processor {
     private String creditAgencyAddress;
     private CreditAgencyWS proxy;
@@ -41,6 +26,7 @@ public class CreditScoreProcessor implements Processor {
     public CreditScoreProcessor(String address) {
         creditAgencyAddress = address;
         proxy = getProxy();
+        
     }
 
     private CreditAgencyWS getProxy() {
@@ -57,15 +43,18 @@ public class CreditScoreProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         List<Object> request = exchange.getIn().getBody(List.class);
         List<String> recipientList =new ArrayList<String>();
-        recipientList.add("bank1WS");
+        /*recipientList.add("bank1WS");
         recipientList.add("bank2WS");
-        recipientList.add("bank3WS");
+        recipientList.add("bank3WS");*/
+        
+        
 
         String ssn = (String) request.get(0);
         Double amount = (Double) request.get(1);
-        Integer loanDuration = (Integer) request.get(2);
+        Integer incomeAmount = (Integer) request.get(2);
+        Integer loanDuration = (Integer) request.get(3);
         //int historyLength = proxy.getCreditHistoryLength(ssn);
-        //int score = proxy.getCreditScore(ssn);
+       // int score = proxy.getCreditScore(ssn);
         
         CreditHistoryDetails creditDetails=proxy.getCreditHistory(ssn, amount);
         creditDetails.setTenure(""+loanDuration);
@@ -78,10 +67,20 @@ public class CreditScoreProcessor implements Processor {
         bankRequest.add(creditDetails);        
         exchange.getOut().setBody(bankRequest);
         exchange.getOut().setHeader("creditScore",creditDetails.getCreditScore());
-        if(creditDetails.getCreditScore() > 6 ){
-        	 recipientList.add("bank4WS");
-        	 recipientList.add("bank5WS");
-        }
+       
+        
+        
+        //Integrating with Rule Engine
+        
+        LoanBrokerKeiHelper loanBrokerKieHelper= new LoanBrokerKeiHelper();
+        KieSession kieSession = loanBrokerKieHelper.getKieSession();
+        kieSession.setGlobal("bankList", recipientList);
+        kieSession.setGlobal("rfqProvider", new RFQProviderImpl());
+        Customer customer = new Customer(ssn, incomeAmount, loanDuration);
+        System.out.println("customer ::: " +customer);
+        
+        loanBrokerKieHelper.insertFactToSession(kieSession, customer);
+        System.out.println("recipientList ::: " +recipientList);
         exchange.getOut().setHeader("recipientList", recipientList);
         exchange.getOut().setHeader("operationName", "getQuoteForAll");
         System.out.println("Proccessing Pass  from CreditScoreProcessor ");

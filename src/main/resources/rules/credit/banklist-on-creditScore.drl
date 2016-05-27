@@ -1,0 +1,66 @@
+//created on: May 19, 2016
+package rules.credit;
+
+
+import org.apache.camel.loanbroker.credit.CreditScore;
+import org.apache.camel.loanbroker.credit.Customer;
+import org.apache.camel.loanbroker.service.RFQProvider;
+import java.util.List;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerOnEP;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerPR;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerCitizen;
+
+
+declare CreditScore
+    @role(event)
+ end
+ 
+ declare Customer
+    @role(event)
+ end
+ 
+ 
+
+global RFQProvider rfqProvider;
+global List<String> bankList;
+
+
+rule "Credit Score < 5"   
+ 
+    when
+             
+        $creditScore : CreditScore($ssn:SSN ,creditScore <= 5) 
+    then
+         System.out.println("Credit Score < 5"); 
+         System.out.println("CreditScore :::"+ $creditScore.getCreditScore()); 
+         bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getCreditScore()));
+
+end
+
+
+
+rule "Credit Score between 5 and 7"   
+ 
+    when
+             
+        $creditScore : CreditScore($ssn:SSN , (creditScore > 5 && creditScore < 7)) 
+    then
+         System.out.println("Credit Score between 5 and 7"); 
+         System.out.println("CreditScore :::"+ $creditScore.getCreditScore()); 
+         bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getCreditScore()));
+
+end
+
+
+
+rule "Credit Score > 7"   
+ 
+    when
+             
+        $creditScore : CreditScore($ssn:SSN ,creditScore > 7) 
+    then
+         System.out.println("Credit Score > 7"); 
+         System.out.println("CreditScore :::"+ $creditScore.getCreditScore()); 
+         bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getCreditScore()));
+
+end

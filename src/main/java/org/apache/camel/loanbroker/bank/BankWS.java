@@ -18,7 +18,9 @@ package org.apache.camel.loanbroker.bank;
 
 import javax.jws.WebService;
 
-import org.apache.camel.loanbroker.credit.CreditAgency.CreditHistoryDetails;
+import org.apache.camel.loanbroker.credit.CreditHistoryDetails;
+
+
 
 //START SNIPPET: bank
 // Since we use @WebServices here, please make sure to use JaxWs frontend API create the client and server

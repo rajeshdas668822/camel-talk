@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 package org.apache.camel.loanbroker.bank;
-
-import org.apache.camel.loanbroker.credit.CreditAgency.CreditHistoryDetails;
+import org.apache.camel.loanbroker.credit.CreditHistoryDetails;
 import org.apache.camel.loanbroker.webservice.IntrestRatecalculator;
 import org.apache.camel.loanbroker.webservice.IntrestRatecalculator.NumberOfPaymentByTenure;
 

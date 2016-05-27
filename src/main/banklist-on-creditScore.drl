@@ -1,0 +1,51 @@
+//created on: May 19, 2016
+/*package rule.credit-processing
+
+
+import org.apache.camel.loanbroker.credit.CreditScore;
+import org.apache.camel.loanbroker.credit.Customer;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerOnEP;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerPR;
+import function org.apache.camel.loanbroker.util.CreditScoreUtil.isCustomerCitizen;
+
+
+
+declare CreditScore
+    @role(event)
+ end
+ 
+ declare Customer
+    @role(event)
+ end
+ 
+
+global RFQProvider rfqProvider
+global List<String> bankList;
+
+rule " Citizen or PR and credit score < 5 "
+
+    when
+        $creditScore : CreditScore((isCustomerPR(SSN) || isCustomerCitizen(SSN)), creditScore <= 5 )       
+    then
+        bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getSSN()));
+end
+
+rule " Citizen or PR and credit score between 5 and 7 "    
+    when
+        $creditScore : CreditScore((isCustomerPR(SSN) || isCustomerCitizen(SSN)), creditScore > 5 || creditScore < 7 )  
+    then
+    
+        bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getSSN()));
+
+end
+
+
+rule "Citizen or PR and income > 7000"    
+    when
+             
+        $creditScore : CreditScore((isCustomerPR(SSN) || isCustomerCitizen(SSN)), creditScore > 7 ) 
+    then
+         bankList.addAll(rfqProvider.getListOfBanksBasedOnCreditScore($creditScore.getSSN()));
+
+end
+*/

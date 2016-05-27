@@ -27,8 +27,8 @@ import com.google.gson.JsonArray;
 // This SEI has no @WebService annotation, we use the simple frontend API to create client and server
 public interface LoanBrokerWS {
 
-    String getLoanQuote(String ssn, Double loanAmount, Integer loanDuration);
-    Set<BankQuote>  getLoanQuoteForAll(String ssn, Double loanAmount, Integer loanDuration);
+    String getLoanQuote(String ssn, Double loanAmount, Integer incomeAmount,Integer loanDuration);
+    Set<BankQuote>  getLoanQuoteForAll(String ssn, Double loanAmount, Integer incomeAmount,Integer loanDuration);
 
 }
 //END SNIPPET: loanBroker

@@ -18,7 +18,7 @@ package org.apache.camel.loanbroker.credit;
 
 import javax.jws.WebService;
 
-import org.apache.camel.loanbroker.credit.CreditAgency.CreditHistoryDetails;
+
 
 //START SNIPPET: creditAgency
 @WebService
