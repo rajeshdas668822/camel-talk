@@ -33,10 +33,10 @@
 	  	<spring-version>4.1.4.RELEASE</spring-version>
    </properties>
 
-    <artifactId>camel-example-restlet-jdbc</artifactId>
+    <artifactId>camel-integration-pattern-example</artifactId>
     <packaging>war</packaging>
-    <name>Camel :: Example :: Restlet :: JDBC</name>
-    <description>An example showing how to create REST API with Camel Restlet and JDBC components</description>
+    <name>Camel :: Loan broker Example </name>
+    <description>An example showing Loan Broker System Management</description>
 
     <repositories>
         <repository>

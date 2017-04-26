@@ -1,3 +1,13 @@
+An example of Composite
+
+
+
+Please refer the Wiki for more detail on the project https://github.com/rajeshdas668822/camel-talk/wiki
+
+
+
+
+
 Camel Restlet and JDBC Example
 ==============================
 
